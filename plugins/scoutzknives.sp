@@ -32,7 +32,7 @@ ConVar gcvTermination;
 
 public Plugin myinfo =
 {
-	name = "[GMD] Scoutzknivez replica",
+	name = "Scoutzknivez replica",
 	author = "openDragon",
 	description = "A recreation of Darkimmortal's public Scoutzknivez plugin",
 	version = PLUGIN_VERSION,
