@@ -32,16 +32,16 @@ ConVar gcvTermination;
 
 public Plugin myinfo =
 {
-	name = "[GMD] Scoutknivez replica",
+	name = "[GMD] Scoutzknivez replica",
 	author = "openDragon",
-	description = "A recreation of Darkimmortal's public Scoutknivez plugin",
+	description = "A recreation of Darkimmortal's public Scoutzknivez plugin",
 	version = PLUGIN_VERSION,
 	url = "http://www.opendragon.eu"
 };
 
 public void OnPluginStart()
 {
-	CreateConVar("sm_scoutknivez_version", PLUGIN_VERSION, "Version of Scoutknivez replica", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
+	CreateConVar("sm_scoutknivez_version", PLUGIN_VERSION, "Version of Scoutzknivez replica", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
 	gcvEnabled  = CreateConVar("sm_scoutknivez_enabled", "1", "Enables/Disables the plugin");
 	gcvProtection  = CreateConVar("sm_scoutknivez_spawn", "5", "Time the player is protected after spawning");
 	gcvBots	= CreateConVar("sm_scoutknivez_Bots", "", "");
