@@ -13,6 +13,22 @@
 #define TFWeapon_Kukri 3
 
 ConVar gcvEnabled;
+ConVar gcvEnabled;
+ConVar gcvProtection;
+ConVar gcvBots;
+ConVar gcvFall;
+ConVar gcvAiraccelerate;
+ConVar gcvHealth;
+ConVar gcvLives;
+ConVar gcvDamage;
+ConVar gcvScope;
+ConVar gcvPenetrate;
+ConVar gcvTracer;
+ConVar gcvAmmo;
+ConVar gcvCost;
+ConVar gcvCostMissed;
+ConVar gcvRegeneration;
+ConVar gcvTermination;
 
 public Plugin myinfo =
 {
