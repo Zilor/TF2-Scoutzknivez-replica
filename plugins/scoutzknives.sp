@@ -30,18 +30,20 @@ ConVar gcvCostMissed;
 ConVar gcvRegeneration;
 ConVar gcvTermination;
 
+bool gbMapSupported;
+
 public Plugin myinfo =
 {
-	name = "Scoutzknivez replica",
+	name = "Scoutknivez replica",
 	author = "openDragon",
-	description = "A recreation of Darkimmortal's public Scoutzknivez plugin",
+	description = "A recreation of Darkimmortal's public Scoutknivez plugin",
 	version = PLUGIN_VERSION,
 	url = "http://www.opendragon.eu"
 };
 
 public void OnPluginStart()
 {
-	CreateConVar("sm_scoutknivez_version", PLUGIN_VERSION, "Version of Scoutzknivez replica", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
+	CreateConVar("sm_scoutknivez_version", PLUGIN_VERSION, "Version of Scoutknivez replica", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
 	gcvEnabled  = CreateConVar("sm_scoutknivez_enabled", "1", "Enables/Disables the plugin");
 	gcvProtection  = CreateConVar("sm_scoutknivez_spawn", "5", "Time the player is protected after spawning");
 	gcvBots	= CreateConVar("sm_scoutknivez_Bots", "", "");
@@ -60,22 +62,43 @@ public void OnPluginStart()
 	gcvTermination	= CreateConVar("sm_scoutknivez_termination", "0", "Amount of time a player has to find some new ammo, before they get terminated");
 
 
-	HookEvent("post_inventory_application", EventPlayerSpawn, EventHookMode_Post);
 	HookEvent("player_spawn", EventPlayerSpawn, EventHookMode_Post);
+	HookEvent("post_inventory_application", EventInventoryApplication, EventHookMode_Post);
 
 }
 
-public Action EventPlayerSpawn(Event eEvent, const char[] cName, bool dDontBroadcast)
+public void OnMapStart()
 {
-	char cEventName[27]; //The longest event name is 26 bit long
-	GetEventName(eEvent, cEventName, strlen(cEventName));
-
-	if( && StrCompare(cEventName, "player_spawn", false)) //TODO: Check Float needs to be greater than zero
+	char cMapName[128]; //TODO: Replace magic number with something else
+	GetCurrentMap(cMapName, strlen(cMapName));
+	
+	if(strncmp(cMapName, "sk_", 3, false) == 0) //TODO: Magic number.
 	{
-		TF2_AddCondition(iClient, TFCond_Ubercharged, gcvProtection.FloatValue);
+		gbMapSupported = true;
 	}
+	else
+	{
+		gbMapSupported = false;
+	}
+}
 
+public Action public Action EventPlayerSpawn(Event eEvent, const char[] cName, bool dDontBroadcast)
+{
+	if(!gcvEnabled || !gbMapSupported)
+	{
+		Plugin_Continue;
+	}
+	
+	TF2_AddCondition(iClient, TFCond_Ubercharged, gcvProtection.FloatValue);
+}
 
+public Action EventInventoryApplication(Event eEvent, const char[] cName, bool dDontBroadcast)
+{
+	if(!gcvEnabled || !gbMapSupported)
+	{
+		Plugin_Continue;
+	}
+	
 	iPrimary = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Primary);
 	// TODO: Check all sniper rifles and only allow the stock and the AWP
 
