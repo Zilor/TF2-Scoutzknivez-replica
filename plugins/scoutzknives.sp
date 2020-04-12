@@ -57,7 +57,7 @@ public void OnPluginStart()
 	gcvTracer	= CreateConVar("sm_scoutzknivez_tracer", "0", "Enables/Disables tracer rounds");
 	gcvAmmo	= CreateConVar("sm_scoutzknivez_ammo", "0", "Enables/Disables tracer rounds");
 	gcvCost	= CreateConVar("sm_scoutzknivez_ammo_cost", "1", "Amount of ammo it costs to fire");
-	gcvCostMissed	= CreateConVar("sm_scoutzknivez_ammo_cost_missed", "0", "Additional amount of ammo lost on miss");0
+	gcvCostMissed	= CreateConVar("sm_scoutzknivez_ammo_cost_missed", "0", "Additional amount of ammo lost on miss");
 	gcvRegeneration	= CreateConVar("sm_scoutzknivez_ammo_regeneration", "0", "Amount of ammo regenerated after 5 seconds");
 	gcvTermination	= CreateConVar("sm_scoutzknivez_termination", "0", "Amount of time a player has to find some new ammo, before they get terminated");
 
@@ -71,33 +71,22 @@ public void OnMapStart()
 {
 	char cMapName[128]; //TODO: Replace magic number with something else
 	GetCurrentMap(cMapName, strlen(cMapName));
-	
-	if(strncmp(cMapName, "sk_", 3, false) == 0) //TODO: Magic number.
-	{
-		gbMapSupported = true;
-	}
-	else
-	{
-		gbMapSupported = false;
-	}
+	gbMapSupported = (strncmp(cMapName, "sk_", 3, false) == 0) ? true : false;
 }
 
 public Action EventPlayerSpawn(Event eEvent, const char[] cName, bool dDontBroadcast)
 {
 	if(!gcvEnabled || !gbMapSupported)
-	{
-		Plugin_Continue;
-	}
+		return Plugin_Continue;
 	
-	TF2_AddCondition(iClient, TFCond_Ubercharged, gcvProtection.FloatValue);
+	if(gcvProtection.FloatValue > 0)
+		TF2_AddCondition(iClient, TFCond_Ubercharged, gcvProtection.FloatValue);
 }
 
 public Action EventInventoryApplication(Event eEvent, const char[] cName, bool dDontBroadcast)
 {
 	if(!gcvEnabled || !gbMapSupported)
-	{
 		Plugin_Continue;
-	}
 	
 	iPrimary = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Primary);
 	// TODO: Check all sniper rifles and only allow the stock and the AWP
@@ -105,20 +94,13 @@ public Action EventInventoryApplication(Event eEvent, const char[] cName, bool d
 	if(IsValidEntity(iPrimary))
 	{
 		if(gcvScope.BoolValue)
-		{
 			TF2Attrib_SetByName(iPrimary, "unimplemented_mod_sniper_no_charge", 1); //Ignore the "unimplemented"
-		}
 
 		if(gcvPenetrate.BoolValue)
-		{
 			TF2Attrib_SetByName(iPrimary, "shot_penetrate_all_players", 1);
-		}
 
 		if(gccTracer.BoolValue)
-		{
 			TF2Attrib_SetByName(iPrimary, "sniper_fires_tracer", 1);
-		}
-
 	}
 
 	iMelee = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Melee);
@@ -126,9 +108,8 @@ public Action EventInventoryApplication(Event eEvent, const char[] cName, bool d
 
 	TF2_RemoveWeaponSlot(iClient, TFWeaponSlot_Secondary);
 
+	// Prevent the "civilian" glitch by forcing a weapon
 	int iActiveWeapon = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
 	if(iActiveWeapon != iPrimary && iActiveWeapon != iMelee)
-	{
-		SetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon", iPrimary);	//Set the primary weapon as the active weapon
-	}
+		SetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon", iPrimary);	
 }
