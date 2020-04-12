@@ -41,7 +41,6 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
-	CreateConVar("sm_scoutzknivez_version", PLUGIN_VERSION, "Version of scoutzknivez replica", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
 	gcvProtection  = CreateConVar("sm_scoutzknivez_spawn", "5", "Time the player is protected after spawning");
 	gcvBots	= CreateConVar("sm_scoutzknivez_Bots", "", "");
 	gcvFall  = CreateConVar("sm_scoutzknivez_fall_damage", "", "");
