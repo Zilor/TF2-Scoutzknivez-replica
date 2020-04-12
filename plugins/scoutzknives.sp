@@ -1,10 +1,10 @@
-#pragma semicolon 1
-
 #include <sourcemod>
 #include <sdkhooks>
 #include <tf2>
 #include <tf2_stocks>
+#include <tf2attributes>
 
+#pragma semicolon 1
 #pragma newdecls required
 
 #define PLUGIN_VERSION "0.0.1"
@@ -70,36 +70,37 @@ public void OnMapStart()
 	gbMapSupported = (strncmp(cMapName, "sk_", 3, false) == 0) ? true : false;
 }
 
-public Action EventPlayerSpawn(Event eEvent, const char[] cName, bool dDontBroadcast)
+public void EventPlayerSpawn(Event eEvent, const char[] cName, bool dDontBroadcast)
 {
 	if(!gbMapSupported)
-		return Plugin_Continue;
+		return;
 	
 	if(gcvProtection.FloatValue > 0)
-		TF2_AddCondition(iClient, TFCond_Ubercharged, gcvProtection.FloatValue);
+		TF2_AddCondition(eEvent.GetInt("userid"), TFCond_Ubercharged, gcvProtection.FloatValue);
 }
 
-public Action EventInventoryApplication(Event eEvent, const char[] cName, bool dDontBroadcast)
+public void EventInventoryApplication(Event eEvent, const char[] cName, bool dDontBroadcast)
 {
 	if(!gbMapSupported)
-		return Plugin_Continue;
+		return;
 	
-	iPrimary = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Primary);
+	int iClient = eEvent.GetInt("userid");
+	int iPrimary = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Primary);
 	// TODO: Check all sniper rifles and only allow the stock and the AWP
 
 	if(IsValidEntity(iPrimary))
 	{
 		if(gcvScope.BoolValue)
-			TF2Attrib_SetByName(iPrimary, "unimplemented_mod_sniper_no_charge", 1); //Ignore the "unimplemented"
+			TF2Attrib_SetByName(iPrimary, "unimplemented_mod_sniper_no_charge", view_as<float>(1)); //Ignore the "unimplemented"
 
 		if(gcvPenetrate.BoolValue)
-			TF2Attrib_SetByName(iPrimary, "shot_penetrate_all_players", 1);
+			TF2Attrib_SetByName(iPrimary, "shot_penetrate_all_players", view_as<float>(1));
 
-		if(gccTracer.BoolValue)
-			TF2Attrib_SetByName(iPrimary, "sniper_fires_tracer", 1);
+		if(gcvTracer.BoolValue)
+			TF2Attrib_SetByName(iPrimary, "sniper_fires_tracer", view_as<float>(1));
 	}
 
-	iMelee = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Melee);
+	int iMelee = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Melee);
 	//Do melee stuff here
 
 	TF2_RemoveWeaponSlot(iClient, TFWeaponSlot_Secondary);
