@@ -12,8 +12,6 @@
 #define TFWeapon_Sniper_Rifle 14
 #define TFWeapon_Kukri 3
 
-ConVar gcvEnabled;
-ConVar gcvEnabled;
 ConVar gcvProtection;
 ConVar gcvBots;
 ConVar gcvFall;
@@ -44,7 +42,6 @@ public Plugin myinfo =
 public void OnPluginStart()
 {
 	CreateConVar("sm_scoutzknivez_version", PLUGIN_VERSION, "Version of scoutzknivez replica", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
-	gcvEnabled  = CreateConVar("sm_scoutzknivez_enabled", "1", "Enables/Disables the plugin");
 	gcvProtection  = CreateConVar("sm_scoutzknivez_spawn", "5", "Time the player is protected after spawning");
 	gcvBots	= CreateConVar("sm_scoutzknivez_Bots", "", "");
 	gcvFall  = CreateConVar("sm_scoutzknivez_fall_damage", "", "");
@@ -76,7 +73,7 @@ public void OnMapStart()
 
 public Action EventPlayerSpawn(Event eEvent, const char[] cName, bool dDontBroadcast)
 {
-	if(!gcvEnabled || !gbMapSupported)
+	if(!gbMapSupported)
 		return Plugin_Continue;
 	
 	if(gcvProtection.FloatValue > 0)
@@ -85,7 +82,7 @@ public Action EventPlayerSpawn(Event eEvent, const char[] cName, bool dDontBroad
 
 public Action EventInventoryApplication(Event eEvent, const char[] cName, bool dDontBroadcast)
 {
-	if(!gcvEnabled || !gbMapSupported)
+	if(!gbMapSupported)
 		Plugin_Continue;
 	
 	iPrimary = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Primary);
