@@ -83,7 +83,7 @@ public Action EventPlayerSpawn(Event eEvent, const char[] cName, bool dDontBroad
 public Action EventInventoryApplication(Event eEvent, const char[] cName, bool dDontBroadcast)
 {
 	if(!gbMapSupported)
-		Plugin_Continue;
+		return Plugin_Continue;
 	
 	iPrimary = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Primary);
 	// TODO: Check all sniper rifles and only allow the stock and the AWP
