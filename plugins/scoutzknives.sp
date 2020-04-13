@@ -116,7 +116,7 @@ public void EventInventoryApplication(Event eEvent, const char[] cName, bool dDo
 	if(gcvCost.FloatValue > 0)
 		TF2Attrib_SetByName(iPrimary, "mod ammo per shot", gcvCost.FloatValue);
 	
-	if(gcvRegeneration.IntValue > 1)
+	if(gcvRegeneration.FloatValue > 0)
 		TF2Attrib_SetByName(iPrimary, "ammo regen", gcvRegeneration.FloatValue / gcvAmmo.FloatValue);
 	
 	if(gcvPenetrate.BoolValue)
