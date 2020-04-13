@@ -66,7 +66,7 @@ public void OnPluginStart()
 	gcvDamage  = CreateConVar("sm_scoutzknivez_damage", "3", "Damage multiplicator");
 	gcvScope  = CreateConVar("sm_scoutzknivez_scope", "0", "Enables/Disables the Zoom function");
 	gcvPenetrate  = CreateConVar("sm_scoutzknivez_penetrate", "1", "Enables/Disables the penatration of player");
-	gcvTracer	= CreateConVar("sm_scoutzknivez_tracer", "0", "Enables/Disables tracer rounds");
+	gcvTracer	= CreateConVar("sm_scoutzknivez_tracer", "1", "Enables/Disables tracer rounds");
 	gcvAmmo	= CreateConVar("sm_scoutzknivez_ammo", "25", "Enables/Disables tracer rounds");
 	gcvCost	= CreateConVar("sm_scoutzknivez_ammo_cost", "1", "Amount of ammo it costs to fire");
 	gcvCostMissed	= CreateConVar("sm_scoutzknivez_ammo_cost_missed", "0", "Additional amount of ammo lost on miss");
