@@ -1,6 +1,5 @@
 #include <sourcemod>
 #include <sdkhooks>
-#include <tf2>
 #include <tf2_stocks>
 #include <tf2attributes>
 #include <SteamWorks>
