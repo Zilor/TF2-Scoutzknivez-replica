@@ -7,3 +7,5 @@ Unfeatures are features which have purposely not been included within a product.
 - Updater support
 - Support for other games (This plugin relies heavily on features shiped with TF2)
 - Dedicated config file (Use server.cfg or a map specific config file to controll this plugin)
+- Support for the winner's podium found on sk_scoutzknivez_v4
+- Madness mode (aka. Minigun)
